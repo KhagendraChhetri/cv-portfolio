@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Khagendra Chhetri - Software Engineer</title>
+    <style>
+        /* --- Global Styles & Retro Futurism Theme --- */
+        :root {
+            --primary-bg: #0A0A23; /* Deep space blue/purple */
+            --secondary-bg: #1B1B32;
+            --accent-pink: #FF69B4; /* Electric pink */
+            --accent-cyan: #00FFFF; /* Vibrant cyan */
+            --accent-orange: #FFA500; /* Glowing orange */
+            --text-light: #F0F0F0;
+            --text-dark: #333;
+            --border-glow: 0 0 5px var(--accent-cyan), 0 0 10px var(--accent-cyan), 0 0 15px var(--accent-cyan);
+            --font-heading: 'Orbitron', sans-serif; /* Example: Needs to be imported */
+            --font-body: 'Roboto Mono', monospace;   /* Example: Needs to be imported */
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--primary-bg);
+            color: var(--text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-heading);
+            color: var(--accent-cyan);
+            text-shadow: var(--border-glow);
+            margin-bottom: 0.8em;
+        }
+
+        h1 { font-size: 2.8em; }
+        h2 { font-size: 2.2em; }
+        h3 { font-size: 1.8em; }
+
+        a {
+            color: var(--accent-pink);
+            text-decoration: none;
+            transition: color 0.3s ease, text-shadow 0.3s ease;
+        }
+
+        a:hover, a:focus {
+            color: var(--accent-orange);
+            text-shadow: 0 0 8px var(--accent-orange);
+        }
+
+        section {
+            padding: 60px 0;
+            border-bottom: 1px dashed rgba(0, 255, 255, 0.2); /* Subtle cyan dashed line */
+        }
+
+        section:last-of-type {
+            border-bottom: none;
+        }
+
+        /* --- Navigation --- */
+        nav {
+            background-color: rgba(27, 27, 50, 0.8); /* Semi-transparent */
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5em;
+            color: var(--accent-cyan);
+            text-shadow: var(--border-glow);
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            font-family: var(--font-heading);
+            font-size: 1em;
+            color: var(--text-light);
+        }
+         nav ul li a:hover {
+            color: var(--accent-pink);
+            text-shadow: 0 0 5px var(--accent-pink);
+        }
+
+
+        /* --- Hero Section --- */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(10, 10, 35, 0.8), rgba(10, 10, 35, 0.95)),
+                        url('https://www.transparenttextures.com/patterns/stardust.png'); /* Example background */
+            background-size: cover, auto;
+            padding-top: 80px; /* Account for fixed nav */
+        }
+
+        #hero h1 {
+            font-size: 3.5em;
+            margin-bottom: 0.2em;
+        }
+
+        #hero .subtitle {
+            font-size: 1.5em;
+            color: var(--accent-pink);
+            margin-bottom: 1em;
+            font-family: var(--font-body);
+            text-shadow: 0 0 5px var(--accent-pink);
+        }
+
+        #hero .tagline {
+            font-size: 1.1em;
+            max-width: 700px;
+            margin-bottom: 2em;
+        }
+
+        .contact-quick-links {
+            margin-top: 20px;
+        }
+        .contact-quick-links a {
+            margin: 0 15px;
+            font-size: 1.2em;
+            display: inline-block;
+        }
+         /* Simple icon placeholders - replace with actual icons */
+        .contact-quick-links a::before {
+            /* content: '🔗'; Remove or replace with actual icon library */
+            margin-right: 5px;
+        }
+
+
+        /* --- About Me Section --- */
+        #about .about-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 30px;
+        }
+        #about .profile-pic-container {
+            flex-basis: 250px; /* Initial size for the picture */
+            flex-grow: 0;
+        }
+
+        #about img.profile-pic {
+            width: 200px; /* Adjust as needed */
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid var(--accent-cyan);
+            box-shadow: 0 0 15px var(--accent-cyan);
+            object-fit: cover;
+        }
+         #about .text-content {
+            flex-basis: 0;
+            flex-grow: 1;
+            min-width: 300px; /* Ensure text content doesn't get too squished */
+        }
+
+
+        /* --- Skills Section --- */
+        #skills .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .skill-category {
+            background-color: var(--secondary-bg);
+            padding: 25px;
+            border-radius: 8px;
+            border: 1px solid var(--accent-cyan);
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+
+        .skill-category h3 {
+            color: var(--accent-pink);
+            margin-top: 0;
+            font-size: 1.5em;
+            text-shadow: 0 0 5px var(--accent-pink);
+        }
+
+        .skill-category ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skill-category ul li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .skill-category ul li::before {
+            content: '»'; /* Retro bullet */
+            position: absolute;
+            left: 0;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+
+        /* --- Projects Section --- */
+        #projects .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background-color: var(--secondary-bg);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--accent-pink);
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+        }
+
+        .project-card img.project-image { /* Placeholder for project image */
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: #333; /* Fallback if no image */
+            border-bottom: 1px solid var(--accent-pink);
+        }
+
+        .project-card .project-info {
+            padding: 20px;
+            flex-grow: 1; /* Makes info fill space */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card h3 {
+            color: var(--accent-cyan);
+            margin-top: 0;
+            font-size: 1.6em;
+        }
+
+        .project-card .tech-stack {
+            font-size: 0.9em;
+            color: var(--accent-orange);
+            margin-bottom: 15px;
+        }
+        .project-card .tech-stack span {
+            display: inline-block;
+            background-color: rgba(255,165,0,0.2);
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin-right: 5px;
+            margin-bottom: 5px;
+        }
+
+
+        .project-links {
+            margin-top: auto; /* Pushes links to the bottom */
+            padding-top: 15px;
+        }
+        .project-links a {
+            display: inline-block;
+            margin-right: 15px;
+            padding: 8px 15px;
+            border: 1px solid var(--accent-cyan);
+            border-radius: 5px;
+            color: var(--accent-cyan);
+            font-weight: bold;
+        }
+        .project-links a:hover {
+            background-color: var(--accent-cyan);
+            color: var(--primary-bg);
+            text-shadow: none;
+        }
+
+
+        /* --- Experience & Education --- */
+        #experience .timeline {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        #experience .timeline::after { /* Central line */
+            content: '';
+            position: absolute;
+            width: 3px;
+            background-color: var(--accent-cyan);
+            box-shadow: var(--border-glow);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1.5px;
+        }
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: transparent;
+            width: 50%;
+        }
+         /* Circle on the timeline */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            right: -8.5px;
+            background-color: var(--primary-bg);
+            border: 3px solid var(--accent-pink);
+            top: 20px;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 10px var(--accent-pink);
+        }
+        .timeline-item.left { left: 0; }
+        .timeline-item.right { left: 50%; }
+        .timeline-item.right::after { left: -6.5px; } /* Adjust circle for right items */
+
+        .timeline-content {
+            padding: 15px 20px;
+            background-color: var(--secondary-bg);
+            position: relative;
+            border-radius: 6px;
+            border: 1px solid var(--accent-pink);
+            box-shadow: 0 0 10px rgba(255,105,180,0.2);
+        }
+        .timeline-content h3 {
+            margin-top: 0;
+            color: var(--accent-cyan);
+            font-size: 1.4em;
+        }
+        .timeline-content .date {
+            font-size: 0.9em;
+            color: var(--accent-orange);
+            margin-bottom: 10px;
+            display: block;
+        }
+
+
+        /* --- Contact Section --- */
+        #contact {
+            text-align: center;
+        }
+        #contact p {
+            max-width: 600px;
+            margin: 0 auto 30px auto;
+        }
+        .contact-links-final a {
+            display: inline-block;
+            margin: 10px 20px;
+            font-size: 1.5em; /* Larger icons/links */
+            font-family: var(--font-heading);
+        }
+        /* You can add a simple form here if needed */
+        /*
+        #contact form { ... }
+        #contact input, #contact textarea { ... }
+        #contact button[type="submit"] { ... }
+        */
+
+        /* --- Footer --- */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--secondary-bg);
+            border-top: 1px solid var(--accent-cyan);
+        }
+        footer p {
+            margin: 0;
+            font-size: 0.9em;
+        }
+
+        /* --- Responsive Adjustments (Basic) --- */
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2em; }
+            #hero h1 { font-size: 2.5em; }
+            #hero .subtitle { font-size: 1.2em; }
+            nav ul { flex-direction: column; align-items: center; }
+            nav ul li { margin: 10px 0; }
+            nav .container { flex-direction: column; }
+
+            #experience .timeline::after { left: 15px; } /* Move line to the left */
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; }
+            .timeline-item.right { left: 0%; } /* Stack items */
+            .timeline-item::after { left: 8.5px; } /* Adjust circle for all items */
+        }
+
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+</head>
+<body>
+
+    <nav id="navbar">
+        <div class="container">
+            <div class="logo">KC</div>
+            <ul>
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header id="hero">
+        <div class="container">
+            <h1>Khagendra Chhetri</h1>
+            <p class="subtitle">Software Engineer: Architecting Tomorrow's Digital Realities</p>
+            <p class="tagline">Bridging visionary concepts with clean code. Crafting innovative software solutions with a nod to the future, inspired by the classics.</p>
+            <div class="contact-quick-links">
+                <a href="mailto:chhetrikhagendra96@gmail.com" title="Email">📧 Email</a>
+                <a href="tel:07384985480" title="Phone">📞 Phone</a>
+                <a href="#your-linkedin-url" target="_blank" title="LinkedIn">🔗 LinkedIn</a>
+                <a href="#your-github-url" target="_blank" title="GitHub">🐙 GitHub</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section id="about">
+            <div class="container">
+                <h2>About Me: The Engineer Behind the Code</h2>
+                <div class="about-content">
+                    <div class="profile-pic-container">
+                        <img src="https://via.placeholder.com/200x200.png?text=KC" alt="Khagendra Chhetri" class="profile-pic">
+                    </div>
+                    <div class="text-content">
+                        <p>A dedicated and analytical Software Engineer, driven by a passion for designing, developing, and maintaining innovative software systems. My foundation in computing theory and technology, cultivated through my BSc (Hons) in Software Engineering, empowers me to tackle complex challenges and build robust solutions.</p>
+                        <p>I thrive on understanding user needs and translating them into efficient, elegant code. With a keen eye for detail and a collaborative spirit, I'm eager to contribute to projects that push the boundaries of technology and shape the digital future.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills">
+            <div class="container">
+                <h2>Tech Odyssey: Skills & Proficiencies</h2>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Programming Languages</h3>
+                        <ul>
+                            <li>Java</li>
+                            <li>Python</li>
+                            <li>JavaScript (ES6+)</li>
+                            <li>HTML5 & CSS3</li>
+                            </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Frameworks & Libraries</h3>
+                        <ul>
+                            <li>Spring Boot (Java)</li>
+                            <li>React / Angular / Vue.js (JS)</li>
+                            <li>Node.js (JS)</li>
+                            </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Databases & Tools</h3>
+                        <ul>
+                            <li>SQL (MySQL, PostgreSQL)</li>
+                            <li>MongoDB</li>
+                            <li>Git & GitHub</li>
+                            <li>Docker</li>
+                            </ul>
+                    </div>
+                    <div class="skill-category">
+                        <h3>Core Concepts</h3>
+                        <ul>
+                            <li>Algorithms & Data Structures</li>
+                            <li>Software Design Principles</li>
+                            <li>Agile Methodologies</li>
+                            <li>RESTful APIs</li>
+                            <li>Testing & Debugging</li>
+                        </ul>
+                    </div>
+                     <div class="skill-category">
+                        <h3>Professional Competencies</h3>
+                        <ul>
+                            <li>Analytical Problem-Solving</li>
+                            <li>Collaborative Communication</li>
+                            <li>Detail-Oriented Development</li>
+                            <li>Adaptability & Continuous Learning</li>
+                            <li>Structured Planning & Organization</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects">
+            <div class="container">
+                <h2>Project Constellation: Featured Works</h2>
+                <div class="projects-grid">
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Project+Alpha" alt="Project Alpha" class="project-image">
+                        <div class="project-info">
+                            <h3>Project Alpha (Example)</h3>
+                            <p class="tech-stack">
+                                <span>Java</span> <span>Spring Boot</span> <span>React</span> <span>PostgreSQL</span>
+                            </p>
+                            <p>A dynamic web application designed to streamline project management with features like X, Y, and Z, built with a focus on modern UI/UX principles.</p>
+                            <div class="project-links">
+                                <a href="#link-to-live-demo-1" target="_blank">Live Demo</a>
+                                <a href="#link-to-github-repo-1" target="_blank">View Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                        <img src="https://via.placeholder.com/400x200.png?text=Retro+Weather" alt="Retro Weather App" class="project-image">
+                        <div class="project-info">
+                            <h3>RetroWave Weather (Example)</h3>
+                             <p class="tech-stack">
+                                <span>JavaScript</span> <span>HTML/CSS</span> <span>Weather API</span>
+                            </p>
+                            <p>A mobile-responsive PWA providing real-time weather updates with a unique retro-futuristic interface, leveraging external APIs.</p>
+                             <div class="project-links">
+                                <a href="#link-to-live-demo-2" target="_blank">Live Demo</a>
+                                <a href="#link-to-github-repo-2" target="_blank">View Code</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card">
+                         <img src="https://via.placeholder.com/400x200.png?text=Data+Analyzer" alt="Data Analyzer" class="project-image">
+                        <div class="project-info">
+                            <h3>DataStream Analyzer (Example)</h3>
+                            <p class="tech-stack">
+                                <span>Python</span> <span>Flask</span> <span>Pandas</span> <span>MongoDB</span>
+                            </p>
+                            <p>A backend system developed to process and analyze data sets, incorporating database management and algorithmic problem-solving.</p>
+                            <div class="project-links">
+                                <a href="#link-to-github-repo-3" target="_blank">View Code</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <div class="container">
+                <h2>Career Trajectory: Experience & Education</h2>
+                <div class="timeline">
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>BSc (Hons) Computing (Software Engineering)</h3>
+                            <span class="date">10/2021 - 11/2024 (Expected)</span>
+                            <p><strong>University of Northampton, United Kingdom</strong></p>
+                            <p>Gained comprehensive knowledge in software design, development methodologies, programming languages, database management, web and mobile application development, cloud computing, and AI principles. Focused on practical application through coursework and projects.</p>
+                        </div>
+                    </div>
+                     <div class="timeline-item right">
+                        <div class="timeline-content">
+                            <h3>Support Worker</h3>
+                            <span class="date">04/2022 - Present</span>
+                            <p><strong>PLUTO HEALTH CARE, Northampton</strong></p>
+                            <p>Honed strong problem-solving, communication, and interpersonal skills while managing complex needs and maintaining meticulous records. Developed a patient and detail-oriented approach valuable in collaborative environments.</p>
+                        </div>
+                    </div>
+                    <div class="timeline-item left">
+                        <div class="timeline-content">
+                            <h3>Support Worker</h3>
+                            <span class="date">10/2021 - 03/2022</span>
+                            <p><strong>JIMMACULATE CARE LIMITED, Northampton</strong></p>
+                            <p>Further cultivated skills in structured planning, record-keeping, and teamwork, essential for effective software development processes.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact">
+            <div class="container">
+                <h2>Get in Touch: Let's Build the Future</h2>
+                <p>Have a project in mind or want to connect? I'm always excited to discuss new opportunities and collaborations in the realm of software engineering.</p>
+                <div class="contact-links-final">
+                    <a href="mailto:chhetrikhagendra96@gmail.com">Email Me</a>
+                    <a href="#your-linkedin-url" target="_blank">LinkedIn Profile</a>
+                    <a href="#your-github-url" target="_blank">GitHub Profile</a>
+                </div>
+                </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; <span id="currentYear"></span> Khagendra Chhetri. Crafted with code and a vision of the future.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth Scrolling for Navigation Links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    // Calculate position of target element relative to the document,
+                    // considering the fixed navbar height.
+                    const navbarHeight = document.getElementById('navbar').offsetHeight;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const offsetPosition = elementPosition - navbarHeight;
+
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: "smooth"
+                    });
+                }
+            });
+        });
+
+        // Set current year in footer
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Optional: Simple scroll animations or further interactivity can be added here.
+        // Example: Fade in elements on scroll (would require more complex observer logic)
+
+    </script>
+
+</body>
+</html>
