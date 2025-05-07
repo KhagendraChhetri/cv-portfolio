@@ -14,7 +14,8 @@
             --accent-orange: #FFA500; /* Glowing orange */
             --text-light: #F0F0F0;
             --text-dark: #333;
-            --border-glow: 0 0 5px var(--accent-cyan), 0 0 10px var(--accent-cyan), 0 0 15px var(--accent-cyan);
+            --border-glow-cyan: 0 0 5px var(--accent-cyan), 0 0 10px var(--accent-cyan), 0 0 15px var(--accent-cyan);
+            --border-glow-pink: 0 0 5px var(--accent-pink), 0 0 10px var(--accent-pink), 0 0 15px var(--accent-pink);
             --font-heading: 'Orbitron', sans-serif; /* Example: Needs to be imported */
             --font-body: 'Roboto Mono', monospace;   /* Example: Needs to be imported */
         }
@@ -39,7 +40,7 @@
         h1, h2, h3 {
             font-family: var(--font-heading);
             color: var(--accent-cyan);
-            text-shadow: var(--border-glow);
+            text-shadow: var(--border-glow-cyan);
             margin-bottom: 0.8em;
         }
 
@@ -62,14 +63,14 @@
             padding: 60px 0;
             border-bottom: 1px dashed rgba(0, 255, 255, 0.2); /* Subtle cyan dashed line */
         }
-
         section:last-of-type {
             border-bottom: none;
         }
 
         /* --- Navigation --- */
         nav {
-            background-color: rgba(27, 27, 50, 0.8); /* Semi-transparent */
+            background-color: rgba(27, 27, 50, 0.85); /* Semi-transparent */
+            backdrop-filter: blur(5px); /* Frosted glass effect */
             padding: 15px 0;
             position: fixed;
             width: 100%;
@@ -89,28 +90,63 @@
             font-family: var(--font-heading);
             font-size: 1.5em;
             color: var(--accent-cyan);
-            text-shadow: var(--border-glow);
+            text-shadow: var(--border-glow-cyan);
         }
 
-        nav ul {
+        nav ul#nav-links { /* Added ID for JS targeting */
             list-style: none;
             padding: 0;
             margin: 0;
             display: flex;
         }
 
-        nav ul li {
+        nav ul#nav-links li {
             margin-left: 25px;
         }
 
-        nav ul li a {
+        nav ul#nav-links li a {
             font-family: var(--font-heading);
             font-size: 1em;
             color: var(--text-light);
+            padding: 5px 10px;
+            border-radius: 4px;
         }
-         nav ul li a:hover {
+        nav ul#nav-links li a:hover,
+        nav ul#nav-links li a.active-link { /* Style for active link */
             color: var(--accent-pink);
             text-shadow: 0 0 5px var(--accent-pink);
+            background-color: rgba(255, 105, 180, 0.1);
+        }
+
+        /* Hamburger Menu Button */
+        .hamburger {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            z-index: 10;
+        }
+        .hamburger .bar {
+            width: 30px;
+            height: 3px;
+            background-color: var(--accent-cyan);
+            border-radius: 2px;
+            transition: all 0.3s linear;
+        }
+        /* Hamburger animation to X */
+        .hamburger.active .bar:nth-child(1) {
+            transform: translateY(9px) rotate(45deg);
+        }
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active .bar:nth-child(3) {
+            transform: translateY(-9px) rotate(-45deg);
         }
 
 
@@ -122,19 +158,19 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            background: linear-gradient(rgba(10, 10, 35, 0.8), rgba(10, 10, 35, 0.95)),
+            background: linear-gradient(rgba(10, 10, 35, 0.85), rgba(10, 10, 35, 0.98)),
                         url('https://www.transparenttextures.com/patterns/stardust.png'); /* Example background */
             background-size: cover, auto;
             padding-top: 80px; /* Account for fixed nav */
         }
 
         #hero h1 {
-            font-size: 3.5em;
+            font-size: 3.2em; /* Slightly reduced for better balance */
             margin-bottom: 0.2em;
         }
 
         #hero .subtitle {
-            font-size: 1.5em;
+            font-size: 1.4em;
             color: var(--accent-pink);
             margin-bottom: 1em;
             font-family: var(--font-body);
@@ -142,23 +178,33 @@
         }
 
         #hero .tagline {
-            font-size: 1.1em;
-            max-width: 700px;
+            font-size: 1.05em;
+            max-width: 650px;
             margin-bottom: 2em;
         }
 
         .contact-quick-links {
             margin-top: 20px;
+            display: flex; /* For better spacing on mobile */
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
         }
         .contact-quick-links a {
-            margin: 0 15px;
-            font-size: 1.2em;
-            display: inline-block;
+            margin: 0 10px;
+            font-size: 1.1em;
+            display: inline-flex; /* Align icon and text */
+            align-items: center;
+            padding: 8px 12px;
+            border: 1px solid transparent;
+            border-radius: 5px;
         }
-         /* Simple icon placeholders - replace with actual icons */
-        .contact-quick-links a::before {
-            /* content: '🔗'; Remove or replace with actual icon library */
-            margin-right: 5px;
+        .contact-quick-links a:hover {
+            border-color: var(--accent-orange);
+        }
+        .contact-quick-links a .icon { /* For emoji or SVG icons */
+            margin-right: 8px;
+            font-size: 1.2em;
         }
 
 
@@ -170,13 +216,14 @@
             gap: 30px;
         }
         #about .profile-pic-container {
-            flex-basis: 250px; /* Initial size for the picture */
-            flex-grow: 0;
+            flex-basis: 200px; /* Adjusted for responsiveness */
+            flex-shrink: 0; /* Prevent shrinking too much */
+            text-align: center; /* Center picture on mobile when stacked */
         }
 
         #about img.profile-pic {
-            width: 200px; /* Adjust as needed */
-            height: 200px;
+            width: 180px;
+            height: 180px;
             border-radius: 50%;
             border: 3px solid var(--accent-cyan);
             box-shadow: 0 0 15px var(--accent-cyan);
@@ -185,14 +232,14 @@
          #about .text-content {
             flex-basis: 0;
             flex-grow: 1;
-            min-width: 300px; /* Ensure text content doesn't get too squished */
+            min-width: 280px; /* Ensure text content doesn't get too squished */
         }
 
 
         /* --- Skills Section --- */
         #skills .skills-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Adjusted minmax */
             gap: 25px;
         }
 
@@ -212,7 +259,7 @@
         .skill-category h3 {
             color: var(--accent-pink);
             margin-top: 0;
-            font-size: 1.5em;
+            font-size: 1.4em; /* Adjusted */
             text-shadow: 0 0 5px var(--accent-pink);
         }
 
@@ -225,6 +272,7 @@
             margin-bottom: 10px;
             padding-left: 20px;
             position: relative;
+            font-size: 0.95em;
         }
 
         .skill-category ul li::before {
@@ -238,7 +286,7 @@
         /* --- Projects Section --- */
         #projects .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted minmax */
             gap: 30px;
         }
 
@@ -257,7 +305,7 @@
             box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
         }
 
-        .project-card img.project-image { /* Placeholder for project image */
+        .project-card img.project-image {
             width: 100%;
             height: 200px;
             object-fit: cover;
@@ -267,7 +315,7 @@
 
         .project-card .project-info {
             padding: 20px;
-            flex-grow: 1; /* Makes info fill space */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
@@ -275,36 +323,43 @@
         .project-card h3 {
             color: var(--accent-cyan);
             margin-top: 0;
-            font-size: 1.6em;
+            font-size: 1.5em; /* Adjusted */
+        }
+        .project-card p {
+            font-size: 0.95em;
+            margin-bottom: 15px;
         }
 
         .project-card .tech-stack {
-            font-size: 0.9em;
+            font-size: 0.85em; /* Adjusted */
             color: var(--accent-orange);
             margin-bottom: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
         }
         .project-card .tech-stack span {
             display: inline-block;
             background-color: rgba(255,165,0,0.2);
             padding: 3px 8px;
             border-radius: 4px;
-            margin-right: 5px;
-            margin-bottom: 5px;
         }
 
 
         .project-links {
-            margin-top: auto; /* Pushes links to the bottom */
+            margin-top: auto;
             padding-top: 15px;
         }
         .project-links a {
             display: inline-block;
-            margin-right: 15px;
-            padding: 8px 15px;
+            margin-right: 10px; /* Reduced margin */
+            margin-bottom: 10px; /* Added for wrapping */
+            padding: 8px 12px; /* Adjusted padding */
             border: 1px solid var(--accent-cyan);
             border-radius: 5px;
             color: var(--accent-cyan);
             font-weight: bold;
+            font-size: 0.9em;
         }
         .project-links a:hover {
             background-color: var(--accent-cyan);
@@ -324,7 +379,7 @@
             position: absolute;
             width: 3px;
             background-color: var(--accent-cyan);
-            box-shadow: var(--border-glow);
+            box-shadow: var(--border-glow-cyan);
             top: 0;
             bottom: 0;
             left: 50%;
@@ -336,13 +391,12 @@
             background-color: transparent;
             width: 50%;
         }
-         /* Circle on the timeline */
-        .timeline-item::after {
+        .timeline-item::after { /* Circle on the timeline */
             content: '';
             position: absolute;
             width: 15px;
             height: 15px;
-            right: -8.5px;
+            right: -8.5px; /* Adjusted for circle placement */
             background-color: var(--primary-bg);
             border: 3px solid var(--accent-pink);
             top: 20px;
@@ -352,7 +406,7 @@
         }
         .timeline-item.left { left: 0; }
         .timeline-item.right { left: 50%; }
-        .timeline-item.right::after { left: -6.5px; } /* Adjust circle for right items */
+        .timeline-item.right::after { left: -6.5px; }
 
         .timeline-content {
             padding: 15px 20px;
@@ -365,13 +419,16 @@
         .timeline-content h3 {
             margin-top: 0;
             color: var(--accent-cyan);
-            font-size: 1.4em;
+            font-size: 1.3em; /* Adjusted */
         }
         .timeline-content .date {
-            font-size: 0.9em;
+            font-size: 0.85em; /* Adjusted */
             color: var(--accent-orange);
             margin-bottom: 10px;
             display: block;
+        }
+        .timeline-content p {
+            font-size: 0.9em;
         }
 
 
@@ -382,24 +439,19 @@
         #contact p {
             max-width: 600px;
             margin: 0 auto 30px auto;
+            font-size: 1em;
         }
         .contact-links-final a {
             display: inline-block;
-            margin: 10px 20px;
-            font-size: 1.5em; /* Larger icons/links */
+            margin: 10px 15px; /* Adjusted margin */
+            font-size: 1.3em; /* Adjusted */
             font-family: var(--font-heading);
         }
-        /* You can add a simple form here if needed */
-        /*
-        #contact form { ... }
-        #contact input, #contact textarea { ... }
-        #contact button[type="submit"] { ... }
-        */
 
         /* --- Footer --- */
         footer {
             text-align: center;
-            padding: 30px 0;
+            padding: 30px 20px; /* Added horizontal padding */
             background-color: var(--secondary-bg);
             border-top: 1px solid var(--accent-cyan);
         }
@@ -408,19 +460,89 @@
             font-size: 0.9em;
         }
 
-        /* --- Responsive Adjustments (Basic) --- */
+        /* --- Responsive Adjustments --- */
         @media (max-width: 768px) {
-            h1 { font-size: 2.2em; }
-            #hero h1 { font-size: 2.5em; }
-            #hero .subtitle { font-size: 1.2em; }
-            nav ul { flex-direction: column; align-items: center; }
-            nav ul li { margin: 10px 0; }
-            nav .container { flex-direction: column; }
+            h1 { font-size: 2.0em; }
+            h2 { font-size: 1.8em; }
+            h3 { font-size: 1.5em; }
 
-            #experience .timeline::after { left: 15px; } /* Move line to the left */
-            .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; }
-            .timeline-item.right { left: 0%; } /* Stack items */
-            .timeline-item::after { left: 8.5px; } /* Adjust circle for all items */
+            #hero h1 { font-size: 2.2em; }
+            #hero .subtitle { font-size: 1.1em; }
+            #hero .tagline { font-size: 0.95em; }
+            .contact-quick-links a { font-size: 1em; margin: 5px; }
+
+
+            /* Hamburger Menu Activation */
+            .hamburger {
+                display: flex; /* Show hamburger */
+            }
+            nav ul#nav-links {
+                display: none; /* Hide normal nav links */
+                flex-direction: column;
+                width: 100%;
+                background-color: rgba(27, 27, 50, 0.95); /* Slightly more opaque for dropdown */
+                position: absolute;
+                top: 65px; /* Adjust based on nav height */
+                left: 0;
+                padding: 10px 0;
+                box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+            }
+            nav ul#nav-links.nav-active {
+                display: flex; /* Show when active */
+            }
+            nav ul#nav-links li {
+                margin: 10px 0;
+                text-align: center;
+            }
+            nav ul#nav-links li a {
+                display: block; /* Make links take full width for easier tapping */
+                padding: 10px;
+            }
+
+            #about .about-content {
+                flex-direction: column; /* Stack image and text */
+                text-align: center;
+            }
+            #about .profile-pic-container {
+                margin-bottom: 20px;
+            }
+
+            #experience .timeline::after { left: 15px; }
+            .timeline-item { width: 100%; padding-left: 50px; padding-right: 10px; margin-bottom: 20px;}
+            .timeline-item.right { left: 0%; }
+            .timeline-item::after { left: 8.5px; /* Adjusted for new line position */ }
+            .timeline-item:last-child { margin-bottom: 0; }
+
+            .project-card .project-info { padding: 15px; }
+            .project-card h3 { font-size: 1.4em; }
+            .project-card p { font-size: 0.9em; }
+            .project-links a { font-size: 0.85em; padding: 7px 10px; }
+        }
+
+        @media (max-width: 480px) {
+            .container { width: 95%; padding: 15px; }
+            h1 { font-size: 1.8em; }
+            h2 { font-size: 1.6em; }
+            h3 { font-size: 1.3em; }
+
+            #hero h1 { font-size: 2em; }
+            #hero .subtitle { font-size: 1em; }
+            #hero .tagline { font-size: 0.9em; }
+            .contact-quick-links a { font-size: 0.9em; padding: 6px 10px; }
+            .contact-quick-links a .icon { font-size: 1.1em; }
+
+
+            #skills .skills-grid { grid-template-columns: 1fr; /* Single column */ }
+            .skill-category h3 { font-size: 1.3em; }
+
+            #projects .projects-grid { grid-template-columns: 1fr; /* Single column */ }
+
+            .timeline-content h3 { font-size: 1.2em; }
+            .timeline-content .date { font-size: 0.8em; }
+            .timeline-content p { font-size: 0.85em; }
+
+            .contact-links-final a { font-size: 1.1em; margin: 8px 10px; }
+            footer p { font-size: 0.8em; }
         }
 
     </style>
@@ -431,8 +553,13 @@
 
     <nav id="navbar">
         <div class="container">
-            <div class="logo">KC</div>
-            <ul>
+            <a href="#hero" class="logo">KC</a>
+            <button class="hamburger" id="hamburger-button" aria-label="Toggle navigation menu" aria-expanded="false">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </button>
+            <ul id="nav-links">
                 <li><a href="#hero">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#skills">Skills</a></li>
@@ -449,10 +576,10 @@
             <p class="subtitle">Software Engineer: Architecting Tomorrow's Digital Realities</p>
             <p class="tagline">Bridging visionary concepts with clean code. Crafting innovative software solutions with a nod to the future, inspired by the classics.</p>
             <div class="contact-quick-links">
-                <a href="mailto:chhetrikhagendra96@gmail.com" title="Email">📧 Email</a>
-                <a href="tel:07384985480" title="Phone">📞 Phone</a>
-                <a href="#your-linkedin-url" target="_blank" title="LinkedIn">🔗 LinkedIn</a>
-                <a href="#your-github-url" target="_blank" title="GitHub">🐙 GitHub</a>
+                <a href="mailto:chhetrikhagendra96@gmail.com" title="Email"><span class="icon">📧</span> Email</a>
+                <a href="tel:07384985480" title="Phone"><span class="icon">📞</span> Phone</a>
+                <a href="#your-linkedin-url" target="_blank" title="LinkedIn"><span class="icon">🔗</span> LinkedIn</a>
+                <a href="#your-github-url" target="_blank" title="GitHub"><span class="icon">🐙</span> GitHub</a>
             </div>
         </div>
     </header>
@@ -460,10 +587,10 @@
     <main>
         <section id="about">
             <div class="container">
-                <h2>About Me: The Engineer Behind the Code</h2>
+                <h2><span class="icon" aria-hidden="true">👨‍🚀</span> About Me: The Engineer Behind the Code</h2>
                 <div class="about-content">
                     <div class="profile-pic-container">
-                        <img src="https://via.placeholder.com/200x200.png?text=KC" alt="Khagendra Chhetri" class="profile-pic">
+                        <img src="https://placehold.co/200x200/0A0A23/00FFFF?text=KC" alt="Khagendra Chhetri" class="profile-pic">
                     </div>
                     <div class="text-content">
                         <p>A dedicated and analytical Software Engineer, driven by a passion for designing, developing, and maintaining innovative software systems. My foundation in computing theory and technology, cultivated through my BSc (Hons) in Software Engineering, empowers me to tackle complex challenges and build robust solutions.</p>
@@ -475,7 +602,7 @@
 
         <section id="skills">
             <div class="container">
-                <h2>Tech Odyssey: Skills & Proficiencies</h2>
+                <h2><span class="icon" aria-hidden="true">🛠️</span> Tech Odyssey: Skills & Proficiencies</h2>
                 <div class="skills-grid">
                     <div class="skill-category">
                         <h3>Programming Languages</h3>
@@ -484,33 +611,37 @@
                             <li>Python</li>
                             <li>JavaScript (ES6+)</li>
                             <li>HTML5 & CSS3</li>
-                            </ul>
+                            <li>SQL</li>
+                        </ul>
                     </div>
                     <div class="skill-category">
                         <h3>Frameworks & Libraries</h3>
                         <ul>
-                            <li>Spring Boot (Java)</li>
-                            <li>React / Angular / Vue.js (JS)</li>
-                            <li>Node.js (JS)</li>
-                            </ul>
+                            <li>Spring Boot</li>
+                            <li>React.js</li>
+                            <li>Node.js & Express.js</li>
+                            <li>jQuery (Legacy support)</li>
+                            <li>Tailwind CSS (Familiarity)</li>
+                        </ul>
                     </div>
                     <div class="skill-category">
                         <h3>Databases & Tools</h3>
                         <ul>
-                            <li>SQL (MySQL, PostgreSQL)</li>
-                            <li>MongoDB</li>
+                            <li>MySQL, PostgreSQL</li>
+                            <li>MongoDB (Basic)</li>
                             <li>Git & GitHub</li>
-                            <li>Docker</li>
-                            </ul>
+                            <li>Docker (Basic)</li>
+                            <li>IntelliJ IDEA, VS Code</li>
+                        </ul>
                     </div>
                     <div class="skill-category">
                         <h3>Core Concepts</h3>
                         <ul>
                             <li>Algorithms & Data Structures</li>
-                            <li>Software Design Principles</li>
-                            <li>Agile Methodologies</li>
+                            <li>Software Design Patterns</li>
+                            <li>Agile & Scrum</li>
                             <li>RESTful APIs</li>
-                            <li>Testing & Debugging</li>
+                            <li>Testing (Unit, Integration)</li>
                         </ul>
                     </div>
                      <div class="skill-category">
@@ -529,16 +660,16 @@
 
         <section id="projects">
             <div class="container">
-                <h2>Project Constellation: Featured Works</h2>
+                <h2><span class="icon" aria-hidden="true">🚀</span> Project Constellation: Featured Works</h2>
                 <div class="projects-grid">
                     <div class="project-card">
-                        <img src="https://via.placeholder.com/400x200.png?text=Project+Alpha" alt="Project Alpha" class="project-image">
+                        <img src="https://placehold.co/400x200/1B1B32/FF69B4?text=Project+Alpha" alt="Project Alpha" class="project-image">
                         <div class="project-info">
                             <h3>Project Alpha (Example)</h3>
                             <p class="tech-stack">
                                 <span>Java</span> <span>Spring Boot</span> <span>React</span> <span>PostgreSQL</span>
                             </p>
-                            <p>A dynamic web application designed to streamline project management with features like X, Y, and Z, built with a focus on modern UI/UX principles.</p>
+                            <p>A dynamic web application designed to streamline project management with features like task tracking, user authentication, and collaborative boards. Built with a focus on modern UI/UX principles.</p>
                             <div class="project-links">
                                 <a href="#link-to-live-demo-1" target="_blank">Live Demo</a>
                                 <a href="#link-to-github-repo-1" target="_blank">View Code</a>
@@ -546,13 +677,13 @@
                         </div>
                     </div>
                     <div class="project-card">
-                        <img src="https://via.placeholder.com/400x200.png?text=Retro+Weather" alt="Retro Weather App" class="project-image">
+                        <img src="https://placehold.co/400x200/1B1B32/00FFFF?text=Retro+Weather" alt="Retro Weather App" class="project-image">
                         <div class="project-info">
                             <h3>RetroWave Weather (Example)</h3>
                              <p class="tech-stack">
-                                <span>JavaScript</span> <span>HTML/CSS</span> <span>Weather API</span>
+                                <span>JavaScript</span> <span>HTML/CSS</span> <span>OpenWeather API</span>
                             </p>
-                            <p>A mobile-responsive PWA providing real-time weather updates with a unique retro-futuristic interface, leveraging external APIs.</p>
+                            <p>A mobile-responsive Progressive Web App (PWA) providing real-time weather updates with a unique retro-futuristic interface, leveraging external APIs for data.</p>
                              <div class="project-links">
                                 <a href="#link-to-live-demo-2" target="_blank">Live Demo</a>
                                 <a href="#link-to-github-repo-2" target="_blank">View Code</a>
@@ -560,13 +691,13 @@
                         </div>
                     </div>
                     <div class="project-card">
-                         <img src="https://via.placeholder.com/400x200.png?text=Data+Analyzer" alt="Data Analyzer" class="project-image">
+                         <img src="https://placehold.co/400x200/1B1B32/FFA500?text=Data+Analyzer" alt="Data Analyzer" class="project-image">
                         <div class="project-info">
                             <h3>DataStream Analyzer (Example)</h3>
                             <p class="tech-stack">
                                 <span>Python</span> <span>Flask</span> <span>Pandas</span> <span>MongoDB</span>
                             </p>
-                            <p>A backend system developed to process and analyze data sets, incorporating database management and algorithmic problem-solving.</p>
+                            <p>A backend system developed to process and analyze large data sets, featuring data cleaning, transformation, and visualization endpoint capabilities.</p>
                             <div class="project-links">
                                 <a href="#link-to-github-repo-3" target="_blank">View Code</a>
                             </div>
@@ -578,7 +709,7 @@
 
         <section id="experience">
             <div class="container">
-                <h2>Career Trajectory: Experience & Education</h2>
+                <h2><span class="icon" aria-hidden="true">🌌</span> Career Trajectory: Experience & Education</h2>
                 <div class="timeline">
                     <div class="timeline-item left">
                         <div class="timeline-content">
@@ -610,14 +741,14 @@
 
         <section id="contact">
             <div class="container">
-                <h2>Get in Touch: Let's Build the Future</h2>
+                <h2><span class="icon" aria-hidden="true">🛰️</span> Get in Touch: Let's Build the Future</h2>
                 <p>Have a project in mind or want to connect? I'm always excited to discuss new opportunities and collaborations in the realm of software engineering.</p>
                 <div class="contact-links-final">
                     <a href="mailto:chhetrikhagendra96@gmail.com">Email Me</a>
-                    <a href="#your-linkedin-url" target="_blank">LinkedIn Profile</a>
-                    <a href="#your-github-url" target="_blank">GitHub Profile</a>
+                    <a href="#your-linkedin-url" target="_blank">LinkedIn</a>
+                    <a href="#your-github-url" target="_blank">GitHub</a>
                 </div>
-                </div>
+            </div>
         </section>
     </main>
 
@@ -628,15 +759,38 @@
     </footer>
 
     <script>
+        // --- Navigation Logic ---
+        const hamburgerButton = document.getElementById('hamburger-button');
+        const navLinks = document.getElementById('nav-links');
+        const navLinkItems = navLinks.querySelectorAll('a'); // Get all links within the nav
+
+        // Toggle hamburger menu
+        hamburgerButton.addEventListener('click', () => {
+            navLinks.classList.toggle('nav-active');
+            hamburgerButton.classList.toggle('active');
+            // ARIA attribute for accessibility
+            const isExpanded = navLinks.classList.contains('nav-active');
+            hamburgerButton.setAttribute('aria-expanded', isExpanded);
+        });
+
+        // Close hamburger menu when a link is clicked
+        navLinkItems.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navLinks.classList.contains('nav-active')) {
+                    navLinks.classList.remove('nav-active');
+                    hamburgerButton.classList.remove('active');
+                    hamburgerButton.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
         // Smooth Scrolling for Navigation Links
-        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+        document.querySelectorAll('nav a[href^="#"], .logo[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
                 const targetId = this.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // Calculate position of target element relative to the document,
-                    // considering the fixed navbar height.
                     const navbarHeight = document.getElementById('navbar').offsetHeight;
                     const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
                     const offsetPosition = elementPosition - navbarHeight;
@@ -652,8 +806,38 @@
         // Set current year in footer
         document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Optional: Simple scroll animations or further interactivity can be added here.
-        // Example: Fade in elements on scroll (would require more complex observer logic)
+        // --- Active Link Highlighting on Scroll (Optional but good UX) ---
+        const sections = document.querySelectorAll('section[id]'); // All sections with an ID
+        window.addEventListener('scroll', navHighlighter);
+
+        function navHighlighter() {
+            let scrollY = window.pageYOffset;
+            const navbarHeight = document.getElementById('navbar').offsetHeight;
+
+            sections.forEach(current => {
+                const sectionHeight = current.offsetHeight;
+                const sectionTop = current.offsetTop - navbarHeight - 50; // Adjusted offset
+                let sectionId = current.getAttribute('id');
+
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    document.querySelector('nav ul#nav-links a[href*=' + sectionId + ']').classList.add('active-link');
+                } else {
+                    document.querySelector('nav ul#nav-links a[href*=' + sectionId + ']').classList.remove('active-link');
+                }
+            });
+            // Special case for hero section at the very top
+            if (scrollY < sections[0].offsetTop - navbarHeight - 50) {
+                 document.querySelector('nav ul#nav-links a[href*="hero"]').classList.add('active-link');
+            } else if (scrollY >= sections[0].offsetTop - navbarHeight - 50) {
+                 // Ensure hero is not active if another section is
+                 if (!document.querySelector('nav ul#nav-links a[href*=' + sections[0].getAttribute('id') + ']').classList.contains('active-link')) {
+                    document.querySelector('nav ul#nav-links a[href*="hero"]').classList.remove('active-link');
+                 }
+            }
+        }
+        // Initial call to set active link on page load
+        navHighlighter();
+
 
     </script>
 
